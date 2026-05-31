@@ -1,0 +1,57 @@
+package ar.edu.ort.lendlyapp.ui.screens.manage
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import ar.edu.ort.lendlyapp.data.local.SessionManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+/**
+ * Sección Manage — Pay Loans, My Credit Score, Profile, Personal info,
+ * Customer support, Notifications, Logout.
+ *
+ * Logout es el único flow que ya está cableado porque toca el SessionManager
+ * (limpia el token y vuelve a Onboarding).
+ *
+ * TODO (compañero): completar pantallas de perfil, score (gauge) y soporte.
+ */
+@Composable
+fun ManageScreen(
+    onLogout: () -> Unit,
+    viewModel: ManageViewModel = hiltViewModel()
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Manage (placeholder)")
+        Button(onClick = { viewModel.logout(onLogout) }) { Text("Cerrar sesión") }
+    }
+}
+
+@HiltViewModel
+class ManageViewModel @Inject constructor(
+    private val sessionManager: SessionManager
+) : ViewModel() {
+    fun logout(after: () -> Unit) {
+        viewModelScope.launch {
+            sessionManager.clear()
+            after()
+        }
+    }
+}
