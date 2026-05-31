@@ -1,4 +1,4 @@
-package com.example.simulacro.ui.theme
+package ar.edu.ort.lendlyapp.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -34,7 +34,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun SimulacroTheme(
+fun LendlyTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

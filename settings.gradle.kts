@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Simulacro"
+rootProject.name = "LendlyApp"
 include(":app")

@@ -4,17 +4,14 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    // Activá Firebase descomentando esto DESPUÉS de copiar app/google-services.json
-    // (ver SETUP.md → sección "Firebase").
-    // alias(libs.plugins.google.services)
 }
 
 android {
-    namespace = "com.example.simulacro"
+    namespace = "ar.edu.ort.lendlyapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.simulacro"
+        applicationId = "ar.edu.ort.lendlyapp"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -56,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.extended)
 
     // --- Navigation ---
     implementation(libs.androidx.navigation.compose)
@@ -65,24 +63,22 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.logging.interceptor)
 
-    // --- Coil (imágenes async desde URL) ---
+    // --- Coil (imágenes async) ---
     implementation(libs.coil.compose)
 
-    // --- Coroutines (funciones suspend / async) ---
+    // --- Coroutines ---
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.play.services)
 
-    // --- Hilt (inyección de dependencias) ---
+    // --- Hilt (DI) ---
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    // --- Firebase (Auth + Firestore) ---
-    // Las deps quedan importadas. NO se inicializan hasta que pongas
-    // app/google-services.json y descomentes el plugin google-services arriba.
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
+    // --- Persistencia: Room + DataStore ---
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.datastore.preferences)
 
     // --- Tests ---
     testImplementation(libs.junit)

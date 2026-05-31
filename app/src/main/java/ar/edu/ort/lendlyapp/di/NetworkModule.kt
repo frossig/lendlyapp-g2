@@ -1,7 +1,8 @@
-package com.example.simulacro.di
+package ar.edu.ort.lendlyapp.di
 
-import com.example.simulacro.BuildConfig
-import com.example.simulacro.data.remote.ApiService
+import ar.edu.ort.lendlyapp.BuildConfig
+import ar.edu.ort.lendlyapp.data.remote.ApiService
+import ar.edu.ort.lendlyapp.data.remote.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,23 +13,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-/**
- * Módulo Hilt: le dice a Hilt CÓMO construir cada dependencia relacionada
- * con networking. Cualquier clase puede pedir un `ApiService` por constructor
- * y Hilt va a saber instanciarlo gracias a esto.
- *
- * Cambiar `BASE_URL` por la de la API del parcial.
- */
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    // OJO: tiene que terminar con "/".
-    private const val BASE_URL = "https://example.com/api/"
+    private const val BASE_URL =
+        "https://6d710e79-f4ca-4651-909f-7dd13bd29968.mock.pstmn.io/"
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
         val logging = HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor.Level.BODY
@@ -37,6 +31,7 @@ object NetworkModule {
             }
         }
         return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addInterceptor(logging)
             .build()
     }

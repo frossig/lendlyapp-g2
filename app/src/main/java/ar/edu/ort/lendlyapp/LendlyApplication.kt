@@ -1,4 +1,4 @@
-package com.example.simulacro
+package ar.edu.ort.lendlyapp
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
@@ -10,4 +10,4 @@ import dagger.hilt.android.HiltAndroidApp
  * Tiene que estar declarada en el AndroidManifest como `android:name`.
  */
 @HiltAndroidApp
-class SimulacroApplication : Application()
+class LendlyApplication : Application()

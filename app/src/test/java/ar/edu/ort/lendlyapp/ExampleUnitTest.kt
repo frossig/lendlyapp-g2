@@ -1,4 +1,4 @@
-package com.example.simulacro
+package ar.edu.ort.lendlyapp
 
 import org.junit.Test
 

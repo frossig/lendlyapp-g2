@@ -1,4 +1,4 @@
-package com.example.simulacro.ui.theme
+package ar.edu.ort.lendlyapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
