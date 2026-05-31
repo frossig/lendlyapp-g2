@@ -1,11 +1,5 @@
 package ar.edu.ort.lendlyapp.data.remote.dto
 
-/**
- * DTOs para los endpoints de /auth.
- *
- * Estos campos son estimados desde el spec; cuando peguen al mock real
- * conviene revisarlos contra la respuesta que devuelve Postman y ajustarlos.
- */
 
 data class LoginRequest(
     val phone: String,

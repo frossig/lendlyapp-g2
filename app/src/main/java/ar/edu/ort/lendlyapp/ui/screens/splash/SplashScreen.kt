@@ -14,11 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-/**
- * Decide a dónde ir según si hay token persistido.
- *
- * TODO (compañero): aplicar diseño del Figma (logo, animación, color de fondo).
- */
+// TODO (compañero): aplicar diseño del Figma (logo, color de fondo, animación).
 @Composable
 fun SplashScreen(
     onAuthenticated: () -> Unit,

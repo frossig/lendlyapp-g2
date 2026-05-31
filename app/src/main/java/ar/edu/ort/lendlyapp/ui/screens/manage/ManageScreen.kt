@@ -18,15 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * Sección Manage — Pay Loans, My Credit Score, Profile, Personal info,
- * Customer support, Notifications, Logout.
- *
- * Logout es el único flow que ya está cableado porque toca el SessionManager
- * (limpia el token y vuelve a Onboarding).
- *
- * TODO (compañero): completar pantallas de perfil, score (gauge) y soporte.
- */
+// TODO (compañero): Pay Loans, Credit Score (gauge), Profile, Personal info, Support, Notifications. Logout ya funciona.
 @Composable
 fun ManageScreen(
     onLogout: () -> Unit,

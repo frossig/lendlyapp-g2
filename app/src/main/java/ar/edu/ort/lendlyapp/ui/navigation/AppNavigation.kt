@@ -11,13 +11,6 @@ import ar.edu.ort.lendlyapp.ui.screens.main.MainScaffold
 import ar.edu.ort.lendlyapp.ui.screens.onboarding.OnboardingScreen
 import ar.edu.ort.lendlyapp.ui.screens.splash.SplashScreen
 
-/**
- * Rutas raíz de la app.
- *
- * Splash es el destino inicial: ahí se decide si la sesión existe (→ Main)
- * o no (→ Onboarding). Cuando la app entra a Main, se monta otro NavHost
- * INTERNO con las 5 pestañas (ver MainScaffold).
- */
 object Routes {
     const val SPLASH = "splash"
     const val ONBOARDING = "onboarding"
@@ -68,7 +61,6 @@ fun AppNavigation(
     }
 }
 
-/** Reemplaza el back stack: útil para "ir a Home después del login y que no pueda volver". */
 private fun NavHostController.toRoot(route: String) {
     navigate(route) {
         popUpTo(graph.startDestinationId) { inclusive = true }

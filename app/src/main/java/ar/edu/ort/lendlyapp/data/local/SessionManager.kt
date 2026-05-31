@@ -13,16 +13,6 @@ import javax.inject.Singleton
 
 private val Context.dataStore by preferencesDataStore(name = "lendly_session")
 
-/**
- * Persistencia del token de sesión y user id usando DataStore (Preferences).
- *
- * Por qué DataStore y no SharedPreferences: es la API moderna de Google
- * (la anterior está deprecated), es asíncrona vía Flow y juega bien con
- * Coroutines.
- *
- * Por qué no Room: estamos guardando 2 claves sueltas; meter una tabla
- * sería matar moscas a cañonazos.
- */
 @Singleton
 class SessionManager @Inject constructor(
     @ApplicationContext private val context: Context
@@ -42,8 +32,7 @@ class SessionManager @Inject constructor(
         context.dataStore.edit { it.clear() }
     }
 
-    /** Acceso sincrónico — útil para el AuthInterceptor que NO es suspend. */
-    suspend fun currentToken(): String? = authToken.first()
+        suspend fun currentToken(): String? = authToken.first()
 
     private companion object {
         val KEY_TOKEN = stringPreferencesKey("auth_token")

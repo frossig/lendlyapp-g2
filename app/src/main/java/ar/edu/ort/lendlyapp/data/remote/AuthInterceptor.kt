@@ -7,14 +7,6 @@ import okhttp3.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Inyecta dos headers en CADA request:
- *  - `x-api-key`: requerido por el spec (constante para el mock).
- *  - `Authorization: Bearer <token>`: solo si hay sesión activa.
- *
- * `runBlocking` se usa adrede acá: los interceptors de OkHttp son sincrónicos
- * y leer una key de DataStore es barato. NO usar este patrón en código de UI.
- */
 @Singleton
 class AuthInterceptor @Inject constructor(
     private val sessionManager: SessionManager

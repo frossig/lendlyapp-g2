@@ -7,12 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
-/**
- * Sección Loans del spec — sub-pantallas: How to Loan, Apply Loan, Active Loan.
- *
- * TODO (compañero): convertir en NavHost interno con esas 3 sub-rutas y crear
- * LoansViewModel que use ApiService.getLoans() y ApiService.applyLoan(...).
- */
+// TODO (compañero): NavHost interno con How to Loan / Apply Loan / Active Loan; GET /loans + POST /loans/apply.
 @Composable
 fun LoansScreen() {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

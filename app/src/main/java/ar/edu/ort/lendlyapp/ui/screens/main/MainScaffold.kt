@@ -28,9 +28,6 @@ import ar.edu.ort.lendlyapp.ui.screens.loans.LoansScreen
 import ar.edu.ort.lendlyapp.ui.screens.manage.ManageScreen
 import ar.edu.ort.lendlyapp.ui.screens.shop.ShopScreen
 
-/**
- * Tabs del Bottom Navigation Bar (orden y labels según spec).
- */
 enum class MainTab(val route: String, val label: String, val icon: ImageVector) {
     HOME("home", "Home", Icons.Outlined.Home),
     LOANS("loans", "Loans", Icons.Outlined.AccountBalanceWallet),
@@ -39,11 +36,6 @@ enum class MainTab(val route: String, val label: String, val icon: ImageVector) 
     MANAGE("manage", "Manage", Icons.Outlined.Settings),
 }
 
-/**
- * Scaffold con BottomNav + NavHost interno. Cada tab tiene su propio destino;
- * los flujos internos (ej. Shop → Product detail) se agregan acá agregando
- * más `composable(...)` y usando `tabsNavController.navigate(...)`.
- */
 @Composable
 fun MainScaffold(onLogout: () -> Unit) {
     val tabsNavController = rememberNavController()

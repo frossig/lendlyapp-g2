@@ -15,10 +15,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-/**
- * Endpoints definidos en el spec del parcial.
- * Base URL y header `x-api-key` se configuran en NetworkModule + AuthInterceptor.
- */
 interface ApiService {
 
     @POST("auth/login")

@@ -12,13 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.ort.lendlyapp.ui.theme.LendlyTheme
 
-/**
- * Home — landing post-login.
- *
- * TODO (compañero): según Figma, debe mostrar Notifications, Calendar, Wallet,
- * Cash In, Preview Pending Loans, Promotional Items. Crear HomeViewModel que
- * pegue a /users/{id} y /loans para mostrar saldo y préstamos pendientes.
- */
+// TODO (compañero): Notifications, Calendar, Wallet, Cash In, pending loans, promos (ver Figma + GET /users/{id} + GET /loans).
 @Composable
 fun HomeScreen() {
     Column(

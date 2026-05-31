@@ -11,12 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-/**
- * Registro contra POST /auth/create + verificación SMS (mockear el código).
- *
- * TODO (compañero): form multi-step (datos personales → SMS code → success),
- * llamar al RegisterViewModel. Replicar diseño Figma.
- */
+// TODO (compañero): form multi-step (datos personales → SMS code mock → success); POST /auth/create.
 @Composable
 fun RegisterScreen(
     onRegistered: () -> Unit,

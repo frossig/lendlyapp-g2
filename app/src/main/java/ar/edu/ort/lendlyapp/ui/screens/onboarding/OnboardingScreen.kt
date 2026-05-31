@@ -12,12 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-/**
- * Bienvenida pre-sesión.
- *
- * TODO (compañero): replicar el diseño del Figma — imagen de bienvenida,
- * tipografía y CTAs.
- */
+// TODO (compañero): replicar diseño Figma (imagen, tipografía, CTAs).
 @Composable
 fun OnboardingScreen(
     onGoToLogin: () -> Unit,

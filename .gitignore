@@ -19,3 +19,6 @@ SETUP.md
 
 # Firebase config (cada uno baja el suyo desde la consola)
 app/google-services.json
+
+# Postman/Insomnia collection (uso local)
+lendlyapp.postman_collection.json

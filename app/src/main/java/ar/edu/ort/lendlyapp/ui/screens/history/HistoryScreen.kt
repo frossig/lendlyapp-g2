@@ -7,11 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
-/**
- * Sección History — Recent Paid Loans + Recent Loans.
- *
- * TODO (compañero): usar /transactions y /loans, filtrar por estado.
- */
+// TODO (compañero): Recent Paid Loans + Recent Loans; GET /transactions + GET /loans (filtrar por status).
 @Composable
 fun HistoryScreen() {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

@@ -11,12 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-/**
- * Login con teléfono + password contra POST /auth/login.
- *
- * TODO (compañero): implementar form con teléfono, password, validación,
- * mensajes de error, y llamar al LoginViewModel.login(). Replicar diseño Figma.
- */
+// TODO (compañero): form con teléfono + password + validación; llamar POST /auth/login.
 @Composable
 fun LoginScreen(
     onLoggedIn: () -> Unit,
