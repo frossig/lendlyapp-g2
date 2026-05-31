@@ -15,12 +15,12 @@ class AuthRepository @Inject constructor(
 
     suspend fun login(phone: String, password: String) {
         val res = api.login(LoginRequest(phone = phone, password = password))
-        session.saveSession(token = res.token, userId = res.userId)
+        session.saveSession(token = res.token, userId = res.user.id.toString())
     }
 
     suspend fun register(request: CreateUserRequest) {
         val res = api.register(request)
-        session.saveSession(token = res.token, userId = res.userId)
+        session.saveSession(token = res.token, userId = res.user.id.toString())
     }
 
     suspend fun logout() {
