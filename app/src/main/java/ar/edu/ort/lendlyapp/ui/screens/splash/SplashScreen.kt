@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -21,26 +22,28 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
+enum class SplashDestination { MAIN, LOGIN, ONBOARDING }
+
 @Composable
 fun SplashScreen(
-    onAuthenticated: () -> Unit,
-    onUnauthenticated: () -> Unit,
+    onDecided: (SplashDestination) -> Unit,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
         delay(1200L)
-        if (viewModel.hasSession()) onAuthenticated() else onUnauthenticated()
+        onDecided(viewModel.decideDestination())
     }
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundNeutral),
+            .background(BackgroundNeutral)
+            .systemBarsPadding(),
         contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(R.drawable.logo_lendly_icon),
             contentDescription = "LendlyApp",
-            modifier = Modifier.size(140.dp)
+            modifier = Modifier.size(width = 108.dp, height = 130.dp)
         )
     }
 }
@@ -49,5 +52,17 @@ fun SplashScreen(
 class SplashViewModel @Inject constructor(
     private val sessionManager: SessionManager
 ) : ViewModel() {
-    suspend fun hasSession(): Boolean = !sessionManager.authToken.first().isNullOrBlank()
+
+    suspend fun decideDestination(): SplashDestination {
+        val token = sessionManager.authToken.first()
+        if (!token.isNullOrBlank()) return SplashDestination.MAIN
+
+        val savedPhone = sessionManager.savedPhone.first()
+        val savedName = sessionManager.savedFullName.first()
+        return if (!savedPhone.isNullOrBlank() && !savedName.isNullOrBlank()) {
+            SplashDestination.LOGIN
+        } else {
+            SplashDestination.ONBOARDING
+        }
+    }
 }

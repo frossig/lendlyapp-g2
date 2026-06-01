@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.edu.ort.lendlyapp.data.local.SessionManager
+import ar.edu.ort.lendlyapp.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,11 +38,11 @@ fun ManageScreen(
 
 @HiltViewModel
 class ManageViewModel @Inject constructor(
-    private val sessionManager: SessionManager
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     fun logout(after: () -> Unit) {
         viewModelScope.launch {
-            sessionManager.clear()
+            authRepository.logout()
             after()
         }
     }

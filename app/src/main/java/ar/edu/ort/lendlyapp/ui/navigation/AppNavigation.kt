@@ -9,6 +9,7 @@ import ar.edu.ort.lendlyapp.ui.screens.auth.LoginScreen
 import ar.edu.ort.lendlyapp.ui.screens.auth.RegisterScreen
 import ar.edu.ort.lendlyapp.ui.screens.main.MainScaffold
 import ar.edu.ort.lendlyapp.ui.screens.onboarding.OnboardingScreen
+import ar.edu.ort.lendlyapp.ui.screens.splash.SplashDestination
 import ar.edu.ort.lendlyapp.ui.screens.splash.SplashScreen
 
 object Routes {
@@ -29,8 +30,14 @@ fun AppNavigation(
     ) {
         composable(Routes.SPLASH) {
             SplashScreen(
-                onAuthenticated = { navController.toRoot(Routes.MAIN) },
-                onUnauthenticated = { navController.toRoot(Routes.ONBOARDING) }
+                onDecided = { dest ->
+                    val target = when (dest) {
+                        SplashDestination.MAIN -> Routes.MAIN
+                        SplashDestination.LOGIN -> Routes.LOGIN
+                        SplashDestination.ONBOARDING -> Routes.ONBOARDING
+                    }
+                    navController.toRoot(target)
+                }
             )
         }
         composable(Routes.ONBOARDING) {
@@ -42,8 +49,7 @@ fun AppNavigation(
         composable(Routes.LOGIN) {
             LoginScreen(
                 onLoggedIn = { navController.toRoot(Routes.MAIN) },
-                onGoToRegister = { navController.navigate(Routes.REGISTER) },
-                onBack = { navController.popBackStack() }
+                onGoToRegister = { navController.navigate(Routes.REGISTER) }
             )
         }
         composable(Routes.REGISTER) {
@@ -55,7 +61,7 @@ fun AppNavigation(
         }
         composable(Routes.MAIN) {
             MainScaffold(
-                onLogout = { navController.toRoot(Routes.ONBOARDING) }
+                onLogout = { navController.toRoot(Routes.LOGIN) }
             )
         }
     }

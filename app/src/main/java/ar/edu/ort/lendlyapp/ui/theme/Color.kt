@@ -34,3 +34,7 @@ val SentimentWarning = Color(0xFFEDC843)
 val BaseLight = Color(0xFFFFFFFF)
 val BaseDark = Color(0xFF121511)
 val BaseContrast = Color(0xFFFFFFFF)
+
+// Custom (no estaban en los tokens del Figma)
+val BackgroundCream = Color(0xFFF8F5EE)
+val BaseDarkGreen = Color(0xFF002203)
