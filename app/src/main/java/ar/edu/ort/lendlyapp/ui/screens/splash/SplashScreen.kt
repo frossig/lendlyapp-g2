@@ -1,20 +1,26 @@
 package ar.edu.ort.lendlyapp.ui.screens.splash
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
+import ar.edu.ort.lendlyapp.R
 import ar.edu.ort.lendlyapp.data.local.SessionManager
+import ar.edu.ort.lendlyapp.ui.theme.BackgroundNeutral
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-// TODO (compañero): aplicar diseño del Figma (logo, color de fondo, animación).
 @Composable
 fun SplashScreen(
     onAuthenticated: () -> Unit,
@@ -22,10 +28,20 @@ fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
+        delay(1200L)
         if (viewModel.hasSession()) onAuthenticated() else onUnauthenticated()
     }
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator()
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundNeutral),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(R.drawable.logo_lendly_icon),
+            contentDescription = "LendlyApp",
+            modifier = Modifier.size(140.dp)
+        )
     }
 }
 

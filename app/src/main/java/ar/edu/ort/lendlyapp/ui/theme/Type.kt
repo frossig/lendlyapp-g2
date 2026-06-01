@@ -12,7 +12,8 @@ private val Montserrat = FontFamily(
     Font(R.font.montserrat_regular, FontWeight.Normal),
     Font(R.font.montserrat_medium, FontWeight.Medium),
     Font(R.font.montserrat_semibold, FontWeight.SemiBold),
-    Font(R.font.montserrat_bold, FontWeight.Bold)
+    Font(R.font.montserrat_bold, FontWeight.Bold),
+    Font(R.font.montserrat_extrabold, FontWeight.ExtraBold)
 )
 
 private val Inter = FontFamily(
@@ -24,8 +25,8 @@ private val Inter = FontFamily(
 
 val Typography = Typography(
     displayLarge = TextStyle(
-        fontFamily = Montserrat, fontWeight = FontWeight.Bold,
-        fontSize = 32.sp, lineHeight = 40.sp, letterSpacing = 0.sp
+        fontFamily = Montserrat, fontWeight = FontWeight.ExtraBold,
+        fontSize = 32.sp, lineHeight = 35.sp, letterSpacing = 0.sp
     ),
     headlineLarge = TextStyle(
         fontFamily = Montserrat, fontWeight = FontWeight.SemiBold,
