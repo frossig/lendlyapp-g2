@@ -7,13 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -24,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import ar.edu.ort.lendlyapp.ui.components.PrimaryButton
 
 // TODO (compañero): form con teléfono + password + validación; llamar POST /auth/login.
 @Composable
@@ -46,7 +45,7 @@ fun LoginScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Log in", style = MaterialTheme.typography.headlineMedium)
+        Text("Log in", style = MaterialTheme.typography.headlineLarge)
 
         OutlinedTextField(
             value = state.phone,
@@ -79,21 +78,12 @@ fun LoginScreen(
 
         Spacer(Modifier.height(8.dp))
 
-        Button(
+        PrimaryButton(
+            text = "Log In",
             onClick = viewModel::submit,
             enabled = state.canSubmit,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            if (state.loading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.height(20.dp),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    strokeWidth = 2.dp
-                )
-            } else {
-                Text("Log in")
-            }
-        }
+            loading = state.loading
+        )
 
         TextButton(onClick = onGoToRegister, enabled = !state.loading) {
             Text("¿No tenés cuenta? Crear una")
