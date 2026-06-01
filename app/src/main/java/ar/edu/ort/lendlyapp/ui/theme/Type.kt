@@ -23,6 +23,7 @@ private val Inter = FontFamily(
     Font(R.font.inter_bold, FontWeight.Bold)
 )
 
+// Slots estándar de Material 3 — usar siempre via MaterialTheme.typography.X
 val Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = Montserrat, fontWeight = FontWeight.ExtraBold,
@@ -64,4 +65,14 @@ val Typography = Typography(
         fontFamily = Inter, fontWeight = FontWeight.Medium,
         fontSize = 12.sp, lineHeight = 16.sp, letterSpacing = 0.sp
     )
+)
+
+val BalanceText = TextStyle(
+    fontFamily = Montserrat, fontWeight = FontWeight.SemiBold,
+    fontSize = 32.sp, lineHeight = 40.sp, letterSpacing = 0.sp
+)
+
+val SectionTitle = TextStyle(
+    fontFamily = Inter, fontWeight = FontWeight.SemiBold,
+    fontSize = 22.sp, lineHeight = 28.sp, letterSpacing = 0.sp
 )

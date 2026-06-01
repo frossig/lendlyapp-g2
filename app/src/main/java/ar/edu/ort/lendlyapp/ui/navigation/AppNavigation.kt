@@ -7,7 +7,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ar.edu.ort.lendlyapp.ui.screens.auth.LoginScreen
 import ar.edu.ort.lendlyapp.ui.screens.auth.RegisterScreen
+import ar.edu.ort.lendlyapp.ui.screens.cashin.CashInFlow
 import ar.edu.ort.lendlyapp.ui.screens.main.MainScaffold
+import ar.edu.ort.lendlyapp.ui.screens.notifications.NotificationsScreen
 import ar.edu.ort.lendlyapp.ui.screens.onboarding.OnboardingScreen
 import ar.edu.ort.lendlyapp.ui.screens.splash.SplashDestination
 import ar.edu.ort.lendlyapp.ui.screens.splash.SplashScreen
@@ -18,6 +20,8 @@ object Routes {
     const val LOGIN = "login"
     const val REGISTER = "register"
     const val MAIN = "main"
+    const val CASH_IN = "cashIn"
+    const val NOTIFICATIONS = "notifications"
 }
 
 @Composable
@@ -61,8 +65,16 @@ fun AppNavigation(
         }
         composable(Routes.MAIN) {
             MainScaffold(
-                onLogout = { navController.toRoot(Routes.LOGIN) }
+                onLogout = { navController.toRoot(Routes.LOGIN) },
+                onCashIn = { navController.navigate(Routes.CASH_IN) },
+                onNotifications = { navController.navigate(Routes.NOTIFICATIONS) }
             )
+        }
+        composable(Routes.CASH_IN) {
+            CashInFlow(onClose = { navController.popBackStack() })
+        }
+        composable(Routes.NOTIFICATIONS) {
+            NotificationsScreen(onBack = { navController.popBackStack() })
         }
     }
 }

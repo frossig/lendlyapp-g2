@@ -21,6 +21,7 @@ import ar.edu.ort.lendlyapp.ui.theme.ContentPrimary
 fun AppTopBar(
     onBack: () -> Unit,
     onInfo: (() -> Unit)? = null,
+    trailing: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -38,16 +39,16 @@ fun AppTopBar(
             )
         }
         Spacer(Modifier.weight(1f))
-        if (onInfo != null) {
-            IconButton(onClick = onInfo) {
+        when {
+            trailing != null -> trailing()
+            onInfo != null -> IconButton(onClick = onInfo) {
                 Icon(
                     imageVector = Icons.Outlined.Info,
                     contentDescription = "Info",
                     tint = ContentPrimary
                 )
             }
-        } else {
-            Spacer(Modifier.size(48.dp))
+            else -> Spacer(Modifier.size(48.dp))
         }
     }
 }

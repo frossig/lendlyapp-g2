@@ -36,5 +36,5 @@ val BaseDark = Color(0xFF121511)
 val BaseContrast = Color(0xFFFFFFFF)
 
 // Custom (no estaban en los tokens del Figma)
-val BackgroundCream = Color(0xFFF8F5EE)
+val BackgroundCream = Color(0xFFFCF8F8)
 val BaseDarkGreen = Color(0xFF002203)
