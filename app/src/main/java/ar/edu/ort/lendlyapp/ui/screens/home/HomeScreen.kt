@@ -45,6 +45,7 @@ import ar.edu.ort.lendlyapp.data.remote.dto.LoanDto
 import ar.edu.ort.lendlyapp.data.remote.dto.ProductDto
 import ar.edu.ort.lendlyapp.data.remote.dto.UserDto
 import ar.edu.ort.lendlyapp.ui.components.LoanCard
+import ar.edu.ort.lendlyapp.ui.components.MainTabHeader
 import ar.edu.ort.lendlyapp.ui.components.ProductCard
 import ar.edu.ort.lendlyapp.ui.components.formatPhp
 import ar.edu.ort.lendlyapp.ui.theme.BackgroundCream
@@ -70,44 +71,12 @@ fun HomeScreen(
             .background(BackgroundElevated)
             .statusBarsPadding()
     ) {
-        HomeHeader(onNotifications = onNotifications)
+        MainTabHeader(onNotifications = onNotifications)
 
         when (val s = state) {
             HomeUiState.Loading -> LoadingState()
             is HomeUiState.Error -> ErrorState(message = s.message, onRetry = viewModel::load)
             is HomeUiState.Success -> HomeContent(state = s, onCashIn = onCashIn)
-        }
-    }
-}
-
-@Composable
-private fun HomeHeader(onNotifications: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        IconButton(onClick = { /* TODO: ir a Manage */ }, modifier = Modifier.size(40.dp)) {
-            Icon(
-                imageVector = Icons.Outlined.Person,
-                contentDescription = "Profile",
-                tint = ContentPrimary
-            )
-        }
-        Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-            Image(
-                painter = painterResource(R.drawable.logo_lendly_small),
-                contentDescription = "LendlyApp",
-                modifier = Modifier.size(width = 70.dp, height = 26.dp)
-            )
-        }
-        IconButton(onClick = onNotifications, modifier = Modifier.size(40.dp)) {
-            Icon(
-                imageVector = Icons.Outlined.Notifications,
-                contentDescription = "Notifications",
-                tint = ContentPrimary
-            )
         }
     }
 }

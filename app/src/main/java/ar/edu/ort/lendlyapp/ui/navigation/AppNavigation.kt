@@ -7,7 +7,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ar.edu.ort.lendlyapp.ui.screens.auth.LoginScreen
 import ar.edu.ort.lendlyapp.ui.screens.auth.RegisterScreen
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import ar.edu.ort.lendlyapp.ui.screens.cashin.CashInFlow
+import ar.edu.ort.lendlyapp.ui.screens.history.TransactionDetailsScreen
 import ar.edu.ort.lendlyapp.ui.screens.main.MainScaffold
 import ar.edu.ort.lendlyapp.ui.screens.notifications.NotificationsScreen
 import ar.edu.ort.lendlyapp.ui.screens.onboarding.OnboardingScreen
@@ -22,6 +25,8 @@ object Routes {
     const val MAIN = "main"
     const val CASH_IN = "cashIn"
     const val NOTIFICATIONS = "notifications"
+    const val TRANSACTION_DETAILS = "transactionDetails/{txId}"
+    fun transactionDetails(id: String) = "transactionDetails/$id"
 }
 
 @Composable
@@ -67,8 +72,17 @@ fun AppNavigation(
             MainScaffold(
                 onLogout = { navController.toRoot(Routes.LOGIN) },
                 onCashIn = { navController.navigate(Routes.CASH_IN) },
-                onNotifications = { navController.navigate(Routes.NOTIFICATIONS) }
+                onNotifications = { navController.navigate(Routes.NOTIFICATIONS) },
+                onTransactionDetails = { id ->
+                    navController.navigate(Routes.transactionDetails(id))
+                }
             )
+        }
+        composable(
+            route = Routes.TRANSACTION_DETAILS,
+            arguments = listOf(navArgument("txId") { type = NavType.StringType })
+        ) {
+            TransactionDetailsScreen(onClose = { navController.popBackStack() })
         }
         composable(Routes.CASH_IN) {
             CashInFlow(onClose = { navController.popBackStack() })

@@ -18,7 +18,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// TODO (compañero): Pay Loans, Credit Score (gauge), Profile, Personal info, Support, Notifications. Logout ya funciona.
 @Composable
 fun ManageScreen(
     onLogout: () -> Unit,

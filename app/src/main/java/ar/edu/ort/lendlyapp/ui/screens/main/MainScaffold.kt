@@ -45,7 +45,8 @@ enum class MainTab(val route: String, val label: String, val icon: ImageVector) 
 fun MainScaffold(
     onLogout: () -> Unit,
     onCashIn: () -> Unit,
-    onNotifications: () -> Unit
+    onNotifications: () -> Unit,
+    onTransactionDetails: (String) -> Unit
 ) {
     val tabsNavController = rememberNavController()
     val backStack by tabsNavController.currentBackStackEntryAsState()
@@ -93,7 +94,12 @@ fun MainScaffold(
             }
             composable(MainTab.LOAN.route) { LoansScreen() }
             composable(MainTab.SHOP.route) { ShopScreen() }
-            composable(MainTab.HISTORY.route) { HistoryScreen() }
+            composable(MainTab.HISTORY.route) {
+                HistoryScreen(
+                    onNotifications = onNotifications,
+                    onTransactionClick = onTransactionDetails
+                )
+            }
             composable(MainTab.MANAGE.route) { ManageScreen(onLogout = onLogout) }
         }
     }
