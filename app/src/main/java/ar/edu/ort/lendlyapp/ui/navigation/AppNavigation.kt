@@ -13,6 +13,7 @@ import ar.edu.ort.lendlyapp.ui.screens.cashin.CashInFlow
 import ar.edu.ort.lendlyapp.ui.screens.history.TransactionDetailsScreen
 import ar.edu.ort.lendlyapp.ui.screens.main.MainScaffold
 import ar.edu.ort.lendlyapp.ui.screens.notifications.NotificationsScreen
+import ar.edu.ort.lendlyapp.ui.screens.shop.ProductDetailScreen
 import ar.edu.ort.lendlyapp.ui.screens.onboarding.OnboardingScreen
 import ar.edu.ort.lendlyapp.ui.screens.splash.SplashDestination
 import ar.edu.ort.lendlyapp.ui.screens.splash.SplashScreen
@@ -27,6 +28,7 @@ object Routes {
     const val NOTIFICATIONS = "notifications"
     const val TRANSACTION_DETAILS = "transactionDetails/{txId}"
     fun transactionDetails(id: String) = "transactionDetails/$id"
+    const val PRODUCT_DETAIL = "productDetail"
 }
 
 @Composable
@@ -75,7 +77,8 @@ fun AppNavigation(
                 onNotifications = { navController.navigate(Routes.NOTIFICATIONS) },
                 onTransactionDetails = { id ->
                     navController.navigate(Routes.transactionDetails(id))
-                }
+                },
+                onProductDetail = { navController.navigate(Routes.PRODUCT_DETAIL) }
             )
         }
         composable(
@@ -89,6 +92,9 @@ fun AppNavigation(
         }
         composable(Routes.NOTIFICATIONS) {
             NotificationsScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.PRODUCT_DETAIL) {
+            ProductDetailScreen(onBack = { navController.popBackStack() })
         }
     }
 }

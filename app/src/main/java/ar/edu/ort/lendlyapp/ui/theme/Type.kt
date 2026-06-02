@@ -76,3 +76,8 @@ val SectionTitle = TextStyle(
     fontFamily = Inter, fontWeight = FontWeight.SemiBold,
     fontSize = 22.sp, lineHeight = 28.sp, letterSpacing = 0.sp
 )
+
+val SubsectionHeader = TextStyle(
+    fontFamily = Inter, fontWeight = FontWeight.SemiBold,
+    fontSize = 16.sp, lineHeight = 22.sp, letterSpacing = 0.sp
+)
