@@ -47,7 +47,8 @@ fun MainScaffold(
     onCashIn: () -> Unit,
     onNotifications: () -> Unit,
     onTransactionDetails: (String) -> Unit,
-    onProductDetail: () -> Unit
+    onProductDetail: () -> Unit,
+    onEditAccount: () -> Unit
 ) {
     val tabsNavController = rememberNavController()
     val backStack by tabsNavController.currentBackStackEntryAsState()
@@ -106,7 +107,13 @@ fun MainScaffold(
                     onTransactionClick = onTransactionDetails
                 )
             }
-            composable(MainTab.MANAGE.route) { ManageScreen(onLogout = onLogout) }
+            composable(MainTab.MANAGE.route) {
+                ManageScreen(
+                    onNotifications = onNotifications,
+                    onEditAccount = onEditAccount,
+                    onLogout = onLogout
+                )
+            }
         }
     }
 }

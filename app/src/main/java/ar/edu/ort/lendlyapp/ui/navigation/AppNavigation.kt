@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import ar.edu.ort.lendlyapp.ui.screens.cashin.CashInFlow
 import ar.edu.ort.lendlyapp.ui.screens.history.TransactionDetailsScreen
 import ar.edu.ort.lendlyapp.ui.screens.main.MainScaffold
+import ar.edu.ort.lendlyapp.ui.screens.manage.EditAccountDetailsScreen
 import ar.edu.ort.lendlyapp.ui.screens.notifications.NotificationsScreen
 import ar.edu.ort.lendlyapp.ui.screens.shop.ProductDetailScreen
 import ar.edu.ort.lendlyapp.ui.screens.onboarding.OnboardingScreen
@@ -29,6 +30,7 @@ object Routes {
     const val TRANSACTION_DETAILS = "transactionDetails/{txId}"
     fun transactionDetails(id: String) = "transactionDetails/$id"
     const val PRODUCT_DETAIL = "productDetail"
+    const val EDIT_ACCOUNT = "editAccountDetails"
 }
 
 @Composable
@@ -78,7 +80,8 @@ fun AppNavigation(
                 onTransactionDetails = { id ->
                     navController.navigate(Routes.transactionDetails(id))
                 },
-                onProductDetail = { navController.navigate(Routes.PRODUCT_DETAIL) }
+                onProductDetail = { navController.navigate(Routes.PRODUCT_DETAIL) },
+                onEditAccount = { navController.navigate(Routes.EDIT_ACCOUNT) }
             )
         }
         composable(
@@ -95,6 +98,9 @@ fun AppNavigation(
         }
         composable(Routes.PRODUCT_DETAIL) {
             ProductDetailScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.EDIT_ACCOUNT) {
+            EditAccountDetailsScreen(onBack = { navController.popBackStack() })
         }
     }
 }
