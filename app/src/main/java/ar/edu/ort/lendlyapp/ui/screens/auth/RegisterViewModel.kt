@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.edu.ort.lendlyapp.data.remote.dto.CreateUserRequest
 import ar.edu.ort.lendlyapp.data.repository.AuthRepository
+import ar.edu.ort.lendlyapp.ui.components.PersonalDetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,6 +48,14 @@ data class RegisterUiState(
         get() = password.length >= 9 &&
                 password.any(Char::isLetter) &&
                 password.any(Char::isDigit)
+
+    fun toPersonalDetails(): PersonalDetailsState = PersonalDetailsState(
+        firstName = firstName,
+        lastName = lastName,
+        day = day, month = month, year = year,
+        address = address, city = city, postalCode = postalCode,
+        countryCode = countryCode, phone = phone
+    )
 }
 
 @HiltViewModel
@@ -70,6 +79,23 @@ class RegisterViewModel @Inject constructor(
     fun onPostalCodeChange(value: String) = _uiState.update { it.copy(postalCode = value) }
     fun onPasswordChange(value: String) = _uiState.update { it.copy(password = value) }
     fun togglePasswordVisibility() = _uiState.update { it.copy(showPassword = !it.showPassword) }
+
+    fun applyPersonalDetails(pd: PersonalDetailsState) {
+        _uiState.update {
+            it.copy(
+                firstName = pd.firstName,
+                lastName = pd.lastName,
+                day = pd.day,
+                month = pd.month,
+                year = pd.year,
+                address = pd.address,
+                city = pd.city,
+                postalCode = pd.postalCode,
+                countryCode = pd.countryCode,
+                phone = pd.phone
+            )
+        }
+    }
 
     fun nextStep() {
         val current = _uiState.value.step

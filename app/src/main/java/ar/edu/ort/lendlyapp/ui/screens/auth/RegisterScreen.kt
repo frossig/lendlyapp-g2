@@ -52,6 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.ort.lendlyapp.R
 import ar.edu.ort.lendlyapp.ui.components.AppTopBar
 import ar.edu.ort.lendlyapp.ui.components.OtpInput
+import ar.edu.ort.lendlyapp.ui.components.PersonalDetailsForm
 import ar.edu.ort.lendlyapp.ui.components.PrimaryButton
 import ar.edu.ort.lendlyapp.ui.theme.BackgroundCream
 import ar.edu.ort.lendlyapp.ui.theme.BackgroundElevated
@@ -152,33 +153,6 @@ private fun StepHeader(
         )
     }
     Spacer(Modifier.height(24.dp))
-}
-
-@Composable
-private fun LabeledField(
-    label: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    placeholder: String? = null
-) {
-    Column(modifier = modifier.padding(horizontal = HPad)) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelLarge,
-            color = ContentSecondary,
-            modifier = Modifier.padding(bottom = 6.dp)
-        )
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            placeholder = placeholder?.let { { Text(it) } },
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
 }
 
 @Composable
@@ -373,111 +347,12 @@ private fun ProfileStep(
         }
     ) {
         StepHeader(title = "Enter your personal details")
-
-        LabeledField(
-            label = "Full legal first and middle name(s)",
-            value = state.firstName,
-            onValueChange = vm::onFirstNameChange,
-            placeholder = "John D."
+        PersonalDetailsForm(
+            state = state.toPersonalDetails(),
+            onStateChange = vm::applyPersonalDetails,
+            modifier = Modifier.padding(horizontal = HPad)
         )
-        Spacer(Modifier.height(16.dp))
-
-        LabeledField(
-            label = "Full legal last name",
-            value = state.lastName,
-            onValueChange = vm::onLastNameChange,
-            placeholder = "Doe"
-        )
-        Spacer(Modifier.height(16.dp))
-
-        Column(modifier = Modifier.padding(horizontal = HPad)) {
-            Text(
-                text = "Date of birth",
-                style = MaterialTheme.typography.labelLarge,
-                color = ContentSecondary
-            )
-            Spacer(Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DateField(label = "Day", value = state.day, onChange = vm::onDayChange, modifier = Modifier.weight(1f))
-                DateField(label = "Month", value = state.month, onChange = vm::onMonthChange, modifier = Modifier.weight(1f))
-                DateField(label = "Year", value = state.year, onChange = vm::onYearChange, modifier = Modifier.weight(1.4f))
-            }
-        }
-        Spacer(Modifier.height(16.dp))
-
-        LabeledField(
-            label = "Address",
-            value = state.address,
-            onValueChange = vm::onAddressChange,
-            placeholder = "Somewhere IN BLOCK 12"
-        )
-        Spacer(Modifier.height(16.dp))
-
-        LabeledField(
-            label = "City",
-            value = state.city,
-            onValueChange = vm::onCityChange,
-            placeholder = "Davao City"
-        )
-        Spacer(Modifier.height(16.dp))
-
-        LabeledField(
-            label = "Postal Code",
-            value = state.postalCode,
-            onValueChange = vm::onPostalCodeChange,
-            placeholder = "8000",
-            keyboardType = KeyboardType.Number
-        )
-        Spacer(Modifier.height(16.dp))
-
-        Column(modifier = Modifier.padding(horizontal = HPad)) {
-            Text(
-                text = "Phone Number",
-                style = MaterialTheme.typography.labelLarge,
-                color = ContentSecondary
-            )
-            Spacer(Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedTextField(
-                    value = state.countryCode,
-                    onValueChange = vm::onCountryCodeChange,
-                    singleLine = true,
-                    modifier = Modifier.width(80.dp)
-                )
-                OutlinedTextField(
-                    value = state.phone,
-                    onValueChange = vm::onPhoneChange,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                    singleLine = true,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
         Spacer(Modifier.height(24.dp))
-    }
-}
-
-@Composable
-private fun DateField(
-    label: String,
-    value: String,
-    onChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodySmall,
-            color = ContentSecondary,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-        OutlinedTextField(
-            value = value,
-            onValueChange = { onChange(it.filter(Char::isDigit)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 }
 
