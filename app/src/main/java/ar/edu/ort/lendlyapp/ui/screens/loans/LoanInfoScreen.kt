@@ -1,47 +1,41 @@
 package ar.edu.ort.lendlyapp.ui.screens.loans
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Bolt
-import androidx.compose.material.icons.outlined.Payments
-import androidx.compose.material.icons.outlined.TrendingUp
-import androidx.compose.material.icons.outlined.VerifiedUser
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ar.edu.ort.lendlyapp.R
 import ar.edu.ort.lendlyapp.ui.components.MainTabHeader
 import ar.edu.ort.lendlyapp.ui.components.PrimaryButton
 import ar.edu.ort.lendlyapp.ui.components.formatPhp
 import ar.edu.ort.lendlyapp.ui.theme.BackgroundCream
-import ar.edu.ort.lendlyapp.ui.theme.BackgroundNeutral
 import ar.edu.ort.lendlyapp.ui.theme.BackgroundScreen
+import ar.edu.ort.lendlyapp.ui.theme.BorderNeutral
 import ar.edu.ort.lendlyapp.ui.theme.ContentLink
 import ar.edu.ort.lendlyapp.ui.theme.ContentPrimary
 import ar.edu.ort.lendlyapp.ui.theme.ContentSecondary
-import ar.edu.ort.lendlyapp.ui.theme.InteractiveAccent
-import ar.edu.ort.lendlyapp.ui.theme.InteractivePrimary
 
 // Valores tomados del diseno de Figma (no provienen de la API).
 private const val MAX_BORROW = 30_000.0
@@ -50,29 +44,29 @@ private const val INTEREST_LABEL = "1.99%"
 private const val PROCESS_FEE_LABEL = "3%"
 
 private data class HowItWorksItem(
-    val icon: ImageVector,
+    val image: Int,
     val title: String,
     val description: String
 )
 
 private val howItWorksItems = listOf(
     HowItWorksItem(
-        Icons.Outlined.TrendingUp,
+        R.drawable.img_credit_score,
         "Keep your credit score high",
         "The offered loan amount is based on your credit score"
     ),
     HowItWorksItem(
-        Icons.Outlined.Bolt,
+        R.drawable.img_confirmation,
         "Get instant approval",
         "Everything we need to process is already in the application"
     ),
     HowItWorksItem(
-        Icons.Outlined.Payments,
+        R.drawable.img_promo_safe_loans,
         "Easy payments option available",
         "Skip the queue and pay your due on the application"
     ),
     HowItWorksItem(
-        Icons.Outlined.VerifiedUser,
+        R.drawable.img_safe,
         "Safe and secure",
         "Rayland is working with trusted partners to provide this services"
     )
@@ -97,7 +91,16 @@ fun LoanInfoScreen(
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            HeroCard()
+            // Hero (imagen del Figma, texto incluido en el asset).
+            Image(
+                painter = painterResource(R.drawable.img_loan_hero),
+                contentDescription = "Safe and secure loans",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(722f / 392f)
+                    .clip(RoundedCornerShape(20.dp))
+            )
 
             BorrowSection(onViewActiveLoans = onViewActiveLoans)
 
@@ -123,43 +126,6 @@ fun LoanInfoScreen(
 
         Column(modifier = Modifier.padding(16.dp)) {
             PrimaryButton(text = "Get This Loan", onClick = onApply)
-        }
-    }
-}
-
-@Composable
-private fun HeroCard() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
-            .background(InteractiveAccent)
-            .padding(20.dp)
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(BackgroundScreen)
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
-            ) {
-                Text(
-                    text = "Limited Time Offer",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = ContentPrimary
-                )
-            }
-            Text(
-                text = "Safe and\nsecure loans",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = InteractivePrimary
-            )
-            Text(
-                text = "All here in Rayland",
-                style = MaterialTheme.typography.bodyMedium,
-                color = InteractivePrimary
-            )
         }
     }
 }
@@ -253,24 +219,19 @@ private fun HowItWorksCard(item: HowItWorksItem, modifier: Modifier = Modifier) 
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(BackgroundCream)
-            .padding(16.dp),
+            .background(BackgroundScreen)
+            .border(1.dp, BorderNeutral, RoundedCornerShape(16.dp))
+            .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Box(
+        Image(
+            painter = painterResource(item.image),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
             modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(BackgroundNeutral),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = item.icon,
-                contentDescription = null,
-                tint = InteractivePrimary,
-                modifier = Modifier.size(22.dp)
-            )
-        }
+                .fillMaxWidth()
+                .height(110.dp)
+        )
         Text(
             text = item.title,
             style = MaterialTheme.typography.titleMedium,
