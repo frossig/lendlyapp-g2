@@ -19,7 +19,8 @@ data class EditAccountUiState(
     val loading: Boolean = true,
     val error: String? = null,
     val form: PersonalDetailsState = PersonalDetailsState(),
-    val saving: Boolean = false
+    val saving: Boolean = false,
+    val saved: Boolean = false
 )
 
 @HiltViewModel
@@ -53,12 +54,12 @@ class EditAccountDetailsViewModel @Inject constructor(
         _uiState.update { it.copy(form = form) }
     }
 
-    fun save(onSaved: () -> Unit) {
+    fun save() {
         // No hay endpoint PUT /users/{id} en el mock — el save es solo simulación.
         _uiState.update { it.copy(saving = true) }
         viewModelScope.launch {
-            _uiState.update { it.copy(saving = false) }
-            onSaved()
+            kotlinx.coroutines.delay(400L)
+            _uiState.update { it.copy(saving = false, saved = true) }
         }
     }
 }
