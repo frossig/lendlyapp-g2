@@ -9,6 +9,8 @@ import ar.edu.ort.lendlyapp.data.remote.dto.LoginRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val MOCK_DEMO_USER_ID = "1"
+
 @Singleton
 class AuthRepository @Inject constructor(
     private val api: ApiService,
@@ -40,7 +42,7 @@ class AuthRepository @Inject constructor(
         val user = googleAuthClient.signIn(activityContext)
         session.saveGoogleSession(
             token = user.id,
-            userId = user.id,
+            userId = MOCK_DEMO_USER_ID,
             fullName = user.fullName,
             email = user.email
         )
