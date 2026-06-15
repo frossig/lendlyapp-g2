@@ -46,6 +46,7 @@ import ar.edu.ort.lendlyapp.ui.theme.ContentSecondary
 fun LoginScreen(
     onLoggedIn: () -> Unit,
     onGoToRegister: () -> Unit,
+    onGoToOnboarding: () -> Unit = {},
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -158,6 +159,14 @@ fun LoginScreen(
                 style = MaterialTheme.typography.labelLarge,
                 color = ContentLink,
                 textDecoration = TextDecoration.Underline
+            )
+        }
+
+        TextButton(onClick = onGoToOnboarding) {
+            Text(
+                text = "Ver onboarding",
+                style = MaterialTheme.typography.labelMedium,
+                color = ContentSecondary
             )
         }
 

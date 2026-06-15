@@ -62,7 +62,8 @@ fun AppNavigation(
         composable(Routes.LOGIN) {
             LoginScreen(
                 onLoggedIn = { navController.toRoot(Routes.MAIN) },
-                onGoToRegister = { navController.navigate(Routes.REGISTER) }
+                onGoToRegister = { navController.navigate(Routes.REGISTER) },
+                onGoToOnboarding = { navController.toRoot(Routes.ONBOARDING) }
             )
         }
         composable(Routes.REGISTER) {
