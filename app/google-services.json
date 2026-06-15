@@ -12,7 +12,12 @@
           "package_name": "ar.edu.ort.lendlyapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "962497656145-srmjka7m6u8r8cu6ffklpm3cs2t5cog4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAk1w63Tgnrn38zcmn6F2rAudULPULWZYs"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962497656145-srmjka7m6u8r8cu6ffklpm3cs2t5cog4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

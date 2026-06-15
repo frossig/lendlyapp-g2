@@ -28,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.ort.lendlyapp.R
+import ar.edu.ort.lendlyapp.ui.components.GoogleSignInButton
 import ar.edu.ort.lendlyapp.ui.components.InitialsAvatar
 import ar.edu.ort.lendlyapp.ui.components.PrimaryButton
 import ar.edu.ort.lendlyapp.ui.theme.ContentLink
@@ -50,6 +52,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(state.success) {
         if (state.success) onLoggedIn()
@@ -151,6 +154,13 @@ fun LoginScreen(
             onClick = viewModel::submit,
             enabled = state.canSubmit,
             loading = state.loading
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        GoogleSignInButton(
+            onClick = { viewModel.signInWithGoogle(context) },
+            enabled = !state.loading
         )
 
         TextButton(onClick = onGoToRegister) {

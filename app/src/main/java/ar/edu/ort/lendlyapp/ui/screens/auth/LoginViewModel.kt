@@ -1,5 +1,6 @@
 package ar.edu.ort.lendlyapp.ui.screens.auth
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.edu.ort.lendlyapp.data.local.SessionManager
@@ -68,6 +69,24 @@ class LoginViewModel @Inject constructor(
 
     fun toggleEditing() {
         _uiState.update { it.copy(isEditing = !it.isEditing) }
+    }
+
+    fun signInWithGoogle(activityContext: Context) {
+        if (_uiState.value.loading) return
+        _uiState.update { it.copy(loading = true, error = null) }
+        viewModelScope.launch {
+            try {
+                authRepository.signInWithGoogle(activityContext)
+                _uiState.update { it.copy(loading = false, success = true) }
+            } catch (t: Throwable) {
+                _uiState.update {
+                    it.copy(
+                        loading = false,
+                        error = t.message ?: "No se pudo iniciar sesión con Google"
+                    )
+                }
+            }
+        }
     }
 
     fun submit() {
