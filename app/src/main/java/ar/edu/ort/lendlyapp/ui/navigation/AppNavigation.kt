@@ -10,6 +10,7 @@ import ar.edu.ort.lendlyapp.ui.screens.auth.RegisterScreen
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import ar.edu.ort.lendlyapp.ui.screens.cashin.CashInFlow
+import ar.edu.ort.lendlyapp.ui.screens.favorites.FavoritesScreen
 import ar.edu.ort.lendlyapp.ui.screens.history.TransactionDetailsScreen
 import ar.edu.ort.lendlyapp.ui.screens.main.MainScaffold
 import ar.edu.ort.lendlyapp.ui.screens.manage.EditAccountDetailsScreen
@@ -31,6 +32,7 @@ object Routes {
     fun transactionDetails(id: String) = "transactionDetails/$id"
     const val PRODUCT_DETAIL = "productDetail"
     const val EDIT_ACCOUNT = "editAccountDetails"
+    const val FAVORITES = "favorites"
 }
 
 @Composable
@@ -82,7 +84,8 @@ fun AppNavigation(
                     navController.navigate(Routes.transactionDetails(id))
                 },
                 onProductDetail = { navController.navigate(Routes.PRODUCT_DETAIL) },
-                onEditAccount = { navController.navigate(Routes.EDIT_ACCOUNT) }
+                onEditAccount = { navController.navigate(Routes.EDIT_ACCOUNT) },
+                onSeeFavorites = { navController.navigate(Routes.FAVORITES) }
             )
         }
         composable(
@@ -102,6 +105,9 @@ fun AppNavigation(
         }
         composable(Routes.EDIT_ACCOUNT) {
             EditAccountDetailsScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.FAVORITES) {
+            FavoritesScreen(onBack = { navController.popBackStack() })
         }
     }
 }
