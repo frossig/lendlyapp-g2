@@ -48,7 +48,8 @@ fun MainScaffold(
     onNotifications: () -> Unit,
     onTransactionDetails: (String) -> Unit,
     onProductDetail: () -> Unit,
-    onEditAccount: () -> Unit
+    onEditAccount: () -> Unit,
+    onSeeFavorites: () -> Unit
 ) {
     val tabsNavController = rememberNavController()
     val backStack by tabsNavController.currentBackStackEntryAsState()
@@ -111,6 +112,7 @@ fun MainScaffold(
                 ManageScreen(
                     onNotifications = onNotifications,
                     onEditAccount = onEditAccount,
+                    onSeeFavorites = onSeeFavorites,
                     onLogout = onLogout
                 )
             }

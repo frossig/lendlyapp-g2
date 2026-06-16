@@ -38,7 +38,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import android.content.Context
+import android.widget.Toast
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.ort.lendlyapp.R
 import ar.edu.ort.lendlyapp.data.remote.dto.BrandDto
@@ -60,6 +63,11 @@ private val promoImages = listOf(
     R.drawable.img_promo_nike
 )
 
+private fun showFavoriteToast(context: Context, added: Boolean) {
+    val message = if (added) "Added to favorites" else "Removed from favorites"
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+}
+
 @Composable
 fun ShopScreen(
     onNotifications: () -> Unit = {},
@@ -67,6 +75,7 @@ fun ShopScreen(
     viewModel: ShopViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
     var showFilter by remember { mutableStateOf(false) }
 
     if (showFilter) {
@@ -121,7 +130,12 @@ fun ShopScreen(
                     onLoadMoreBestSellers = viewModel::loadMoreBestSellers,
                     allProducts = visibleProducts,
                     hasMoreProducts = hasMoreProducts,
-                    onLoadMoreProducts = viewModel::loadMoreProducts
+                    onLoadMoreProducts = viewModel::loadMoreProducts,
+                    favoriteIds = state.favoriteIds,
+                    onToggleFavorite = { product ->
+                        showFavoriteToast(context, added = product.id !in state.favoriteIds)
+                        viewModel.toggleFavorite(product)
+                    }
                 )
             }
         }
@@ -142,7 +156,9 @@ private fun ShopContent(
     onLoadMoreBestSellers: () -> Unit,
     allProducts: List<ProductDto>,
     hasMoreProducts: Boolean,
-    onLoadMoreProducts: () -> Unit
+    onLoadMoreProducts: () -> Unit,
+    favoriteIds: Set<String>,
+    onToggleFavorite: (ProductDto) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -194,6 +210,8 @@ private fun ShopContent(
                         imageUrl = product.image,
                         monthlyInstallment = product.monthlyInstallment,
                         installmentMonths = product.installmentMonths,
+                        isFavorite = product.id in favoriteIds,
+                        onToggleFavorite = { onToggleFavorite(product) },
                         onClick = onProductClick
                     )
                 }
@@ -211,6 +229,8 @@ private fun ShopContent(
                         imageUrl = product.image,
                         monthlyInstallment = product.monthlyInstallment,
                         installmentMonths = product.installmentMonths,
+                        isFavorite = product.id in favoriteIds,
+                        onToggleFavorite = { onToggleFavorite(product) },
                         onClick = onProductClick
                     )
                 }
@@ -251,6 +271,8 @@ private fun ShopContent(
                                 imageUrl = product.image,
                                 monthlyInstallment = product.monthlyInstallment,
                                 installmentMonths = product.installmentMonths,
+                                isFavorite = product.id in favoriteIds,
+                                onToggleFavorite = { onToggleFavorite(product) },
                                 onClick = onProductClick
                             )
                         }

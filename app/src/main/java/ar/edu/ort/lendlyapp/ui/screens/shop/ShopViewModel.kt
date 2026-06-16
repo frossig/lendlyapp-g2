@@ -2,6 +2,8 @@ package ar.edu.ort.lendlyapp.ui.screens.shop
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ar.edu.ort.lendlyapp.data.remote.dto.ProductDto
+import ar.edu.ort.lendlyapp.data.repository.FavoritesRepository
 import ar.edu.ort.lendlyapp.data.repository.ShopData
 import ar.edu.ort.lendlyapp.data.repository.ShopRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,12 +30,14 @@ data class ShopUiState(
     val query: String = "",
     val filter: ShopFilter = ShopFilter(),
     val visibleProductsCount: Int = PAGE_SIZE,
-    val visibleBestSellersCount: Int = PAGE_SIZE
+    val visibleBestSellersCount: Int = PAGE_SIZE,
+    val favoriteIds: Set<String> = emptySet()
 )
 
 @HiltViewModel
 class ShopViewModel @Inject constructor(
-    private val shopRepository: ShopRepository
+    private val shopRepository: ShopRepository,
+    private val favoritesRepository: FavoritesRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ShopUiState())
@@ -46,12 +50,15 @@ class ShopViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val data = shopRepository.getShopData()
+                val favoriteIds = runCatching { favoritesRepository.getFavoriteIds() }
+                    .getOrDefault(emptySet())
                 _uiState.update {
                     it.copy(
                         loading = false,
                         data = data,
                         visibleProductsCount = PAGE_SIZE,
-                        visibleBestSellersCount = PAGE_SIZE
+                        visibleBestSellersCount = PAGE_SIZE,
+                        favoriteIds = favoriteIds
                     )
                 }
             } catch (t: Throwable) {
@@ -66,6 +73,22 @@ class ShopViewModel @Inject constructor(
 
     fun loadMoreBestSellers() {
         _uiState.update { it.copy(visibleBestSellersCount = it.visibleBestSellersCount + PAGE_SIZE) }
+    }
+
+    fun toggleFavorite(product: ProductDto) {
+        val current = _uiState.value.favoriteIds
+        val isFavorite = product.id in current
+        _uiState.update {
+            it.copy(
+                favoriteIds = if (isFavorite) current - product.id else current + product.id
+            )
+        }
+        viewModelScope.launch {
+            runCatching {
+                if (isFavorite) favoritesRepository.removeFavorite(product.id)
+                else favoritesRepository.addFavorite(product)
+            }
+        }
     }
 
     fun onQueryChange(value: String) {
