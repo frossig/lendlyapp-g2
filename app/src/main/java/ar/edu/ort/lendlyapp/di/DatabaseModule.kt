@@ -3,6 +3,7 @@ package ar.edu.ort.lendlyapp.di
 import android.content.Context
 import androidx.room.Room
 import ar.edu.ort.lendlyapp.data.local.LendlyDatabase
+import ar.edu.ort.lendlyapp.data.local.dao.ProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,4 +23,7 @@ object DatabaseModule {
             LendlyDatabase::class.java,
             "lendly.db"
         ).build()
+
+    @Provides
+    fun provideProductDao(db: LendlyDatabase): ProductDao = db.productDao()
 }
