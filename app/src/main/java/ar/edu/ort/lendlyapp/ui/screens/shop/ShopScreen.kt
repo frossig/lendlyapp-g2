@@ -104,6 +104,10 @@ fun ShopScreen(
 
             state.data != null -> {
                 val data = state.data!!
+                val visibleProducts = data.products.take(state.visibleProductsCount)
+                val hasMoreProducts = state.visibleProductsCount < data.products.size
+                val visibleBestSellers = data.bestSellers.take(state.visibleBestSellersCount)
+                val hasMoreBestSellers = state.visibleBestSellersCount < data.bestSellers.size
                 ShopContent(
                     query = state.query,
                     onQueryChange = viewModel::onQueryChange,
@@ -112,7 +116,12 @@ fun ShopScreen(
                     categories = data.categories,
                     brands = data.brands,
                     featured = data.featured,
-                    bestSellers = data.bestSellers
+                    bestSellers = visibleBestSellers,
+                    hasMoreBestSellers = hasMoreBestSellers,
+                    onLoadMoreBestSellers = viewModel::loadMoreBestSellers,
+                    allProducts = visibleProducts,
+                    hasMoreProducts = hasMoreProducts,
+                    onLoadMoreProducts = viewModel::loadMoreProducts
                 )
             }
         }
@@ -128,13 +137,18 @@ private fun ShopContent(
     categories: List<CategoryDto>,
     brands: List<BrandDto>,
     featured: List<ProductDto>,
-    bestSellers: List<ProductDto>
+    bestSellers: List<ProductDto>,
+    hasMoreBestSellers: Boolean,
+    onLoadMoreBestSellers: () -> Unit,
+    allProducts: List<ProductDto>,
+    hasMoreProducts: Boolean,
+    onLoadMoreProducts: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         SearchBar(
             value = query,
@@ -199,6 +213,56 @@ private fun ShopContent(
                         installmentMonths = product.installmentMonths,
                         onClick = onProductClick
                     )
+                }
+            }
+            if (hasMoreBestSellers) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    TextButton(onClick = onLoadMoreBestSellers) {
+                        Text("Load More", color = ContentLink)
+                    }
+                }
+            }
+        }
+
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(
+                text = "All Products",
+                style = SectionTitle,
+                color = ContentPrimary,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Column(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                allProducts.chunked(2).forEach { row ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        row.forEach { product ->
+                            ProductCard(
+                                name = product.name,
+                                imageUrl = product.image,
+                                monthlyInstallment = product.monthlyInstallment,
+                                installmentMonths = product.installmentMonths,
+                                onClick = onProductClick
+                            )
+                        }
+                    }
+                }
+                if (hasMoreProducts) {
+                    TextButton(
+                        onClick = onLoadMoreProducts,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text("Load More", color = ContentLink)
+                    }
                 }
             }
         }
