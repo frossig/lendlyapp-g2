@@ -8,6 +8,7 @@ import ar.edu.ort.lendlyapp.data.repository.HistoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -65,15 +66,17 @@ class HistoryViewModel @Inject constructor(
         _uiState.update { it.copy(loading = true, error = null) }
         viewModelScope.launch {
             try {
-                val txDef = async { repository.getTransactions() }
-                val loansDef = async { repository.getLoans() }
-                awaitAll(txDef, loansDef)
-                _uiState.update {
-                    it.copy(
-                        loading = false,
-                        transactions = txDef.getCompleted(),
-                        paidLoans = loansDef.getCompleted().filter { l -> l.status == "PAID" }
-                    )
+                coroutineScope {
+                    val txDef = async { repository.getTransactions() }
+                    val loansDef = async { repository.getLoans() }
+                    awaitAll(txDef, loansDef)
+                    _uiState.update {
+                        it.copy(
+                            loading = false,
+                            transactions = txDef.getCompleted(),
+                            paidLoans = loansDef.getCompleted().filter { l -> l.status == "PAID" }
+                        )
+                    }
                 }
             } catch (t: Throwable) {
                 _uiState.update { it.copy(loading = false, error = t.message ?: "Error") }
