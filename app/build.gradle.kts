@@ -85,6 +85,10 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.google.identity.googleid)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     // --- Tests ---
     testImplementation(libs.junit)

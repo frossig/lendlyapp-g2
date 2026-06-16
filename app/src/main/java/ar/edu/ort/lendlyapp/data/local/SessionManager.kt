@@ -22,6 +22,7 @@ class SessionManager @Inject constructor(
     val userId: Flow<String?> = context.dataStore.data.map { it[KEY_USER_ID] }
     val savedFullName: Flow<String?> = context.dataStore.data.map { it[KEY_FULL_NAME] }
     val savedPhone: Flow<String?> = context.dataStore.data.map { it[KEY_PHONE] }
+    val savedEmail: Flow<String?> = context.dataStore.data.map { it[KEY_EMAIL] }
 
     suspend fun saveSession(token: String, userId: String, fullName: String, phone: String) {
         context.dataStore.edit { prefs ->
@@ -29,6 +30,15 @@ class SessionManager @Inject constructor(
             prefs[KEY_USER_ID] = userId
             prefs[KEY_FULL_NAME] = fullName
             prefs[KEY_PHONE] = phone
+        }
+    }
+
+    suspend fun saveGoogleSession(token: String, userId: String, fullName: String, email: String) {
+        context.dataStore.edit { prefs ->
+            prefs[KEY_TOKEN] = token
+            prefs[KEY_USER_ID] = userId
+            prefs[KEY_FULL_NAME] = fullName
+            prefs[KEY_EMAIL] = email
         }
     }
 
@@ -50,5 +60,6 @@ class SessionManager @Inject constructor(
         val KEY_USER_ID = stringPreferencesKey("user_id")
         val KEY_FULL_NAME = stringPreferencesKey("full_name")
         val KEY_PHONE = stringPreferencesKey("phone")
+        val KEY_EMAIL = stringPreferencesKey("email")
     }
 }

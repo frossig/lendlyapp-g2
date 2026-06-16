@@ -1,16 +1,21 @@
 package ar.edu.ort.lendlyapp.data.repository
 
+import android.content.Context
 import ar.edu.ort.lendlyapp.data.local.SessionManager
 import ar.edu.ort.lendlyapp.data.remote.ApiService
+import ar.edu.ort.lendlyapp.data.remote.GoogleAuthClient
 import ar.edu.ort.lendlyapp.data.remote.dto.CreateUserRequest
 import ar.edu.ort.lendlyapp.data.remote.dto.LoginRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val MOCK_DEMO_USER_ID = "1"
+
 @Singleton
 class AuthRepository @Inject constructor(
     private val api: ApiService,
-    private val session: SessionManager
+    private val session: SessionManager,
+    private val googleAuthClient: GoogleAuthClient
 ) {
 
     suspend fun login(phone: String, password: String) {
@@ -33,7 +38,18 @@ class AuthRepository @Inject constructor(
         )
     }
 
+    suspend fun signInWithGoogle(activityContext: Context) {
+        val user = googleAuthClient.signIn(activityContext)
+        session.saveGoogleSession(
+            token = user.id,
+            userId = MOCK_DEMO_USER_ID,
+            fullName = user.fullName,
+            email = user.email
+        )
+    }
+
     suspend fun logout() {
+        googleAuthClient.signOut()
         session.logout()
     }
 
