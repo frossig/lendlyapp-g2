@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val PAGE_SIZE = 2
+
 data class ShopFilter(
     val brand: String = "All",
     val gender: String = "All",
@@ -24,7 +26,9 @@ data class ShopUiState(
     val error: String? = null,
     val data: ShopData? = null,
     val query: String = "",
-    val filter: ShopFilter = ShopFilter()
+    val filter: ShopFilter = ShopFilter(),
+    val visibleProductsCount: Int = PAGE_SIZE,
+    val visibleBestSellersCount: Int = PAGE_SIZE
 )
 
 @HiltViewModel
@@ -42,11 +46,26 @@ class ShopViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val data = shopRepository.getShopData()
-                _uiState.update { it.copy(loading = false, data = data) }
+                _uiState.update {
+                    it.copy(
+                        loading = false,
+                        data = data,
+                        visibleProductsCount = PAGE_SIZE,
+                        visibleBestSellersCount = PAGE_SIZE
+                    )
+                }
             } catch (t: Throwable) {
                 _uiState.update { it.copy(loading = false, error = t.message ?: "Error") }
             }
         }
+    }
+
+    fun loadMoreProducts() {
+        _uiState.update { it.copy(visibleProductsCount = it.visibleProductsCount + PAGE_SIZE) }
+    }
+
+    fun loadMoreBestSellers() {
+        _uiState.update { it.copy(visibleBestSellersCount = it.visibleBestSellersCount + PAGE_SIZE) }
     }
 
     fun onQueryChange(value: String) {
