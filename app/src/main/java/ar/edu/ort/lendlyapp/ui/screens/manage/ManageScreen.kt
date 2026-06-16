@@ -26,6 +26,7 @@ import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material.icons.outlined.PersonOutline
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Speed
+import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -52,6 +53,7 @@ import ar.edu.ort.lendlyapp.ui.theme.InteractiveAccent
 fun ManageScreen(
     onNotifications: () -> Unit = {},
     onEditAccount: () -> Unit = {},
+    onSeeFavorites: () -> Unit = {},
     onLogout: () -> Unit,
     viewModel: ManageViewModel = hiltViewModel()
 ) {
@@ -86,6 +88,7 @@ fun ManageScreen(
             SectionLabel("General")
 
             ManageRow(Icons.Outlined.PersonOutline, "Account details", onEditAccount)
+            ManageRow(Icons.Outlined.StarBorder, "See favorites", onSeeFavorites)
             ManageRow(Icons.Outlined.MailOutline, "Receiving by email or phone") { }
             ManageRow(Icons.Outlined.CalendarToday, "Scheduled pay") { }
             ManageRow(Icons.Outlined.Speed, "Credit score") { }
