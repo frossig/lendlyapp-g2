@@ -10,6 +10,7 @@ import ar.edu.ort.lendlyapp.data.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,16 +45,18 @@ class HomeViewModel @Inject constructor(
             try {
                 val userId = sessionManager.userId.first()
                     ?: throw IllegalStateException("No user id in session")
-                val userDef = async { homeRepository.getUser(userId) }
-                val loansDef = async { homeRepository.getLoans() }
-                val productsDef = async { homeRepository.getRecommendedProducts() }
-                awaitAll(userDef, loansDef, productsDef)
+                coroutineScope {
+                    val userDef = async { homeRepository.getUser(userId) }
+                    val loansDef = async { homeRepository.getLoans() }
+                    val productsDef = async { homeRepository.getRecommendedProducts() }
+                    awaitAll(userDef, loansDef, productsDef)
 
-                _uiState.value = HomeUiState.Success(
-                    user = userDef.getCompleted(),
-                    unpaidLoans = loansDef.getCompleted().filter { it.status != "PAID" },
-                    recommendedProducts = productsDef.getCompleted()
-                )
+                    _uiState.value = HomeUiState.Success(
+                        user = userDef.getCompleted(),
+                        unpaidLoans = loansDef.getCompleted().filter { it.status != "PAID" },
+                        recommendedProducts = productsDef.getCompleted()
+                    )
+                }
             } catch (t: Throwable) {
                 _uiState.value = HomeUiState.Error(t.message ?: "No se pudo cargar el Home")
             }
